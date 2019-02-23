@@ -68,6 +68,8 @@ bool q_insert_head(queue_t *q, char *s)
     /* Don't forget to allocate space for the string and copy it */
     /* What if either call to malloc returns NULL? */
     newh->next = q->head;
+    if (q->head == NULL)
+        q->tail = newh;
     q->head = newh;
     return true;
 }
