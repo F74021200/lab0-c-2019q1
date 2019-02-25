@@ -36,16 +36,18 @@ queue_t *q_new()
 /* Free all storage used by queue */
 void q_free(queue_t *q)
 {
-    list_ele_t *ele_ptr = NULL;
-    ele_ptr = q->head;
-    while (ele_ptr) {
-        q->head = ele_ptr->next;
-        free(ele_ptr->value);
-        free(ele_ptr);
+    if (q != NULL) {
+        list_ele_t *ele_ptr = NULL;
         ele_ptr = q->head;
+        while (ele_ptr) {
+            q->head = ele_ptr->next;
+            free(ele_ptr->value);
+            free(ele_ptr);
+            ele_ptr = q->head;
+        }
+        /* Free queue structure */
+        free(q);
     }
-    /* Free queue structure */
-    free(q);
 }
 
 /*
@@ -57,6 +59,9 @@ void q_free(queue_t *q)
  */
 bool q_insert_head(queue_t *q, char *s)
 {
+    if (q == NULL)
+        return false;
+
     list_ele_t *newh;
     newh = malloc(sizeof(list_ele_t));
     if (!newh)
@@ -89,6 +94,9 @@ bool q_insert_tail(queue_t *q, char *s)
 {
     /* You need to write the complete code for this function */
     /* Remember: It should operate in O(1) time */
+    if (q == NULL)
+        return false;
+
     list_ele_t *newt;
     newt = malloc(sizeof(list_ele_t));
     if (!newt)
